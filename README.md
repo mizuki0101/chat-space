@@ -3,7 +3,7 @@
 |------|----|-------|
 |email|string|null: false|
 |password|string|null: false|
-|username|string|null: false|
+|name|string|null: false|index: true|
 ### Association
 - has_many :groups, through:  :groups_users
 - has_many :comments
@@ -11,30 +11,30 @@
 ## groupsテーブル
 |Column|Type|Options|
 |------|----|-------|
-|group_name|text|null: false|
-|user_name|text|null: false|
-|user_id|integer|null: false, foreign_key: true|
+|name|text|null: false|
 ### Association
-- has_many  :users,  through:  :group_users
+- has_many  :users,  through:  :groups_users
 - has_many  :messages
+- has_many :groups_users
  
 
 ## groups_usersテーブル
 |Column|Type|Options|
 |------|----|-------|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
+|user_id|references|null: false, foreign_key: true|
+|group_id|references|null: false, foreign_key: true|
 ### Association
 - belongs_to :group
 - belongs_to :user
+- has_many :groups_users
 
 ## messagesテーブル
 |Column|Type|Options|
 |------|----|-------|
-|text|text|null: false|
+|text|text|
 |image|string|
-|user_id|integer|null: false, foreign_key: true|
-|group_id|integer|null: false, foreign_key: true|
+|user_id|references|null: false, foreign_key: true|
+|group_id|references|null: false, foreign_key: true|
 ### Association
 - belongs_to :group_user
 - belongs_to :user
