@@ -2,14 +2,14 @@
   .sidebar-header
     .sidebar-header__top
       %p.sidebar-header__top__username
-        いくら
+        = current_user.name
       %ul.sidebar-header__top__items
         %li.sidebar-header__top__edit
           = link_to "#" do
             %i.fa.fa-edit 
         %li.sidebar-header__top__new
-          = link_to "#" do
-            %i.fa.fa-cog
+          = link_to edit_user_path(current_user) do
+            %i.fa.fa-cog 
 
   .groups
     =link_to '#', class:"groups-group" do
