@@ -5,19 +5,20 @@
         = current_user.name
       %ul.sidebar-header__top__items
         %li.sidebar-header__top__edit
-          = link_to "#" do
+          = link_to new_group_path do
             %i.fa.fa-edit 
         %li.sidebar-header__top__new
           = link_to edit_user_path(current_user) do
             %i.fa.fa-cog 
 
   .groups
-    =link_to '#', class:"groups-group" do
+    - current_user.groups.each do |group|
       .groups-group
-        %p.groups-group__name
-          たらこ
-        %p.groups-group__message
-          めんこ
-    
+        = link_to group_messages_path(group), class: 'groups-group' do
+          .groups-group__name
+            =  group.name
+          .groups-group__message
+            メッセージはありません
+           
   
 
