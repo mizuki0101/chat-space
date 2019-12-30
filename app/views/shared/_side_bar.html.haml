@@ -12,12 +12,13 @@
             %i.fa.fa-cog 
 
   .groups
-    =link_to '#', class:"groups-group" do
+    - current_user.groups.each do |group|
       .groups-group
-        %p.groups-group__name
-          たらこ
-        %p.groups-group__message
-          めんこ
-    
+        = link_to group_messages_path(group), class: 'groups-group' do
+          .groups-group__name
+            =  group.name
+          .groups-group__message
+            メッセージはありません
+           
   
 
