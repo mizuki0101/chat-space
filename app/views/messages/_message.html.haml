@@ -1,0 +1,11 @@
+.chatmain-message__data
+  .chatmain-message__data__info
+    %p.chatmain-message__data__info--taker
+      = message.user.name
+    %p.chatmain-message__data__info--date
+      = message.created_at.strftime("%Y年%m月%d日 %H時%M分")
+  %p.chatmain-message__data__text
+    - if message.content.present?
+      %p.chatmain-message__data__text__content
+        = message.content
+    = image_tag message.image.url, size: "200x125", class: 'lower-message__image' if message.image.present?
