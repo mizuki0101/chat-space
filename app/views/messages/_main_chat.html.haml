@@ -2,34 +2,27 @@
   .chatmain-header
     .chatmain-header__left-box
       %h2.chatmain-header__left-box__current-group
-        mainheader
+        = @group.name
       %ul.chatmain-header__left-box__group-list
-        調味料 : 
+        Member : 
         %li.chatmain-left-box__group-list__member
-          しょうゆ
+        - @group.group_users.each do |group|
+          = group.user.name
     .chatmain-header__right-box
-      =link_to "Edit", 'http://localhost:3000/groups/1/edit', class:"edit-btn" 
+      =link_to "Edit", edit_group_path(@group.id), class:"edit-btn" 
         
       
   .chatmain-message
-    .chatmain-message__data
-      .chatmain-message__data__info
-        %p.chatmain-message__data__info--taker
-          apple
-        %p.chatmain-message__data__info--date
-          1129
-      %p.chatmain-message__data__text
-        banana
+    = render @messages
 
-  .chatmain-form    
-    %form.new-message
-      .input-box
-        %input{type: "text", class: "input-box__text", placeholder: "type a message"}
-        %label{class: "input-box__image"}
-          %i.fa.fa-image
-          %input{type: "file", class: "input-box__image__file"}
-      %input{type: "submit", class: "submit-btn"}
+  .chatmain-form
+    = form_for [@group, @message] do |f|
+      .form__box
+        = f.text_field :content, class: 'form__box__message', placeholder: 'type a message'
+        = f.label :image, class: 'form__box__image' do
+          = icon('fas', 'image', class: 'icon')
+          = f.file_field :image, class: 'hidden'
+      = f.submit 'Send', class: 'form__submit'
 
-  
-    
+
     
