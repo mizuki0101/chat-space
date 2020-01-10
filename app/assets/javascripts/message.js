@@ -3,7 +3,7 @@ $(function(){
 
     if (message.image) {
       var html = 
-        `<div class="chatmain-message__data" >
+        `<div class="chatmain-message__data" data-message-id=${message.id} >
             <div class="chatmain-message__data__info">
               <p class="chatmain-message__data__info--taker">
                 ${message.user_name}
@@ -22,7 +22,7 @@ $(function(){
       return html;
     } else {
       var html = 
-        `<div class="chatmain-message__data" >
+        `<div class="chatmain-message__data" data-message-id=${message.id} >
           <div class="chatmain-message__data__info">
             <p class="chatmain-message__data__info--taker">
               ${message.user_name}
