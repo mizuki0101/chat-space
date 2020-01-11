@@ -1,8 +1,11 @@
 $(function(){
+  
   function buildHTML(message){
-
-    if (message.image) {
-      var html = 
+    var img ="";
+    if (message.image){
+    var img = `<img src = ${message.image} ">`
+    }
+    var html =
         `<div class="chatmain-message__data" data-message-id=${message.id} >
             <div class="chatmain-message__data__info">
               <p class="chatmain-message__data__info--taker">
@@ -17,29 +20,10 @@ $(function(){
               <p class="chatmain-message__data__text__content">
                 ${message.content}
               </p>
-            <img src=${message.image} size: "200x125">
+            ${img}
         </div>`
-      return html;
-    } else {
-      var html = 
-        `<div class="chatmain-message__data" data-message-id=${message.id} >
-          <div class="chatmain-message__data__info">
-            <p class="chatmain-message__data__info--taker">
-              ${message.user_name}
-            </p>
-            <p class="chatmain-message__data__info--date">
-              ${message.created_at}
-            </p>
-          </div>
-          <p class="chatmain-message__data__text">
-          </p>
-            <p class="chatmain-message__data__text__content">
-              ${message.content}
-            </p>
-        </div>`
-      return html
-    };
-  }
+    return html;
+  };
   $('#new_message').on('submit', function(e){
     e.preventDefault()
     var formData = new FormData(this);
@@ -63,4 +47,31 @@ $(function(){
       alert("メッセージ送信に失敗しました");
    });
   });
+
+
+  var reloadMessages = function() {
+    last_message_id = $('.chatmain-message__data:last').data("message-id");
+    $.ajax({
+      url: "api/messages",
+      type: 'get',
+      dataType: 'json',
+      data: {id: last_message_id}
+    })
+    .done(function(messages) {
+      if (messages.length !== 0) {
+      var insertHTML = '';
+      $.each(messages, function(i, message) {
+        insertHTML += buildHTML(message)
+      });
+      $('.chatmain-message').append(insertHTML);
+      $('.chatmain-message').animate({ scrollTop: $('.chatmain-message')[0].scrollHeight});
+      }
+    })
+    .fail(function() {
+      alert("自動更新に失敗しました");
+    });
+  };
+  if (document.location.href.match(/\/groups\/\d+\/messages/)) {
+  setInterval(reloadMessages, 7000);
+  }
 });
